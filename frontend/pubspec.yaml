@@ -1,0 +1,9 @@
+# pubspec.yaml
+# Placeholder for Flutter project dependencies
+
+name: drivemate
+version: 1.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter

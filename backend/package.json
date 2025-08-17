@@ -1,0 +1,14 @@
+{
+  "name": "drivemate-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0",
+    "aws-sdk": "^2.1360.0",
+    "dotenv": "^16.0.0"
+  }
+}
