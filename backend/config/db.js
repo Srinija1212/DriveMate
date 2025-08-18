@@ -1,17 +1,16 @@
-// db.js
-// MongoDB connection setup
-
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const config = require("./config");
+const logger = require("../utils/logger");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('MongoDB connected');
-  } catch (err) {
-    console.error('MongoDB connection error:', err);
+    const conn = await mongoose.connect(
+      config.MONGODB_URI,
+      config.MONGODB_OPTIONS
+    );
+    logger.info(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    logger.error(`MongoDB connection error: ${error.message}`);
     process.exit(1);
   }
 };
