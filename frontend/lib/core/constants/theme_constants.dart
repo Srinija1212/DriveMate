@@ -2,7 +2,6 @@
 // This file will contain all theme-related constants including colors,
 // spacing, shadows, and material design specifications
 
-import 'package:flutter/material.dart';
 
 class ThemeConstants {
   // TODO: Add primary colors
