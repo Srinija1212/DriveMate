@@ -1,15 +1,32 @@
-// Ride.js
-// Mongoose schema for rides
+const mongoose = require("mongoose");
 
-const mongoose = require('mongoose');
+const rideSchema = new mongoose.Schema(
+  {
+    passenger: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Passenger",
+      required: true,
+    },
+    source_location: {
+      type: String,
+      required: true,
+    },
+    destination: {
+      type: String,
+      required: true,
+    },
+    start_time: {
+      type: Date,
+      required: true,
+    },
+    end_time: Date,
+    ride_status: {
+      type: String,
+      enum: ["requested", "assigned", "ongoing", "completed", "cancelled"],
+      default: "requested",
+    },
+  },
+  { timestamps: true }
+);
 
-const rideSchema = new mongoose.Schema({
-  origin: String,
-  destination: String,
-  date: Date,
-  seatsAvailable: Number,
-  driver: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  // Add more fields as needed
-});
-
-module.exports = mongoose.model('Ride', rideSchema);
+module.exports = mongoose.model("Ride", rideSchema);

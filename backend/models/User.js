@@ -1,14 +1,54 @@
-// User.js
-// Mongoose schema for users
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const validator = require("validator");
 
-const mongoose = require('mongoose');
+const userSchema = new mongoose.Schema(
+  {
+    role: {
+      type: String,
+      enum: ["passenger", "driver"],
+      required: true,
+    },
+    full_name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      lowercase: true,
+      validate: [validator.isEmail, "Invalid email address"],
+    },
+    phone_number: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    address: {
+      type: String,
+      default: null,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+      select: false,
+    },
+  },
+  { timestamps: true }
+);
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
-  isDriver: { type: Boolean, default: false },
-  // Add more fields as needed
+// hash password
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
 });
 
-module.exports = mongoose.model('User', userSchema);
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
+
+module.exports = mongoose.model("User", userSchema);
